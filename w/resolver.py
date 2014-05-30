@@ -20,7 +20,11 @@ class Resolver(object):
     if isdir(next): # TODO: check if executable?
       return self.__resolve(root = next + '/', rest = rest[1:])
     elif isfile(next):
-      return file_node(next, rest[1:], self.__logger)
+      return file_node(
+        next,
+        dir_node(root, self.__logger),
+        rest[1:],
+        self.__logger)
     else:
       return missing_node(next, self.__logger)
 

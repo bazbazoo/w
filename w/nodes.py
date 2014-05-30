@@ -1,3 +1,4 @@
+from os import access, R_OK, W_OK, X_OK
 from os.path import abspath, isdir, isfile
 
 from web import notfound, forbidden
@@ -45,26 +46,48 @@ class __ForbiddenNode(Node):
 def forbidden_node(path, logger):
   return __ForbiddenNode(path, logger)
 
-class __FileNode(Node):
-  def __init__(self, path, after, logger):
+class __ActualNode(Node):
+  def __access(self, flag):
+    return access(self.path, flag)
+
+  @property
+  def executable(self):
+    return self.__access(X_OK)
+
+  @property
+  def readable(self):
+    return self.__access(R_OK)
+
+  @property
+  def writable(self):
+    return self.__access(W_OK)
+
+class __FileNode(__ActualNode):
+  def __init__(self, path, parent, after, logger):
     Node.__init__(self, path, logger)
     self.__after = after
+    self.__parent = parent
 
   def execute(self, method):
-    return '%s: %s' % (self.path, self.__after)
+    return str(self)
 
-def file_node(path, afters, logger):
+  def __str__(self):
+    return '%s %s: %s' % (self.__parent, self.path, self.__after)
+
+def file_node(path, parent, afters, logger):
   after = None
-  if len(afters) > 0:
-    after = J(*afters)
+  if len(afters) > 0: after = J(*afters)
   assert isfile(path)
-  return __FileNode(path, after, logger)
+  return __FileNode(path, parent, after, logger)
 
-class __DirNode(Node):
+class __DirNode(__ActualNode):
   def __init__(self, path, logger):
     Node.__init__(self, path, logger)
 
   def execute(self, method):
+    return str(self)
+
+  def __str__(self):
     return self.path
 
 def dir_node(path, logger):

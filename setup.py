@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 
 setup(
     name='w',
@@ -11,6 +11,5 @@ setup(
     license='LICENSE.txt',
     description='HTTP server',
     long_description=open('README.txt').read(),
-    install_requires=[
-    ],
+    install_requires=[ 'web.py' ],
 )

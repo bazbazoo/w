@@ -18,28 +18,17 @@ class Node(object):
   def logger(self):
     return self.__logger
 
-  def execute(self, method):
+  def __call__(self, method):
     raise NotImplementedError()
 
   def forbidden(self):
     return forbidden_node(self.path, self.__logger)
 
-class __MissingNode(Node):
-  def __init__(self, path, logger):
-    Node.__init__(self, path, logger)
-
-  def execute(self, method):
-    notfound()
-    return "not found"
-
-def missing_node(path, logger):
-  return __MissingNode(path, logger)
-
 class __ForbiddenNode(Node):
   def __init__(self, path, logger):
     Node.__init__(self, path, logger)
 
-  def execute(self, method):
+  def __call__(self, method):
     forbidden()
     return "forbidden"
 
@@ -62,13 +51,55 @@ class __ActualNode(Node):
   def writable(self):
     return self.__access(W_OK)
 
+  def _GET(self):
+    raise NotImplementedError
+
+  def _PUT(self):
+    raise NotImplementedError
+
+  def _POST(self):
+    raise NotImplementedError
+
+  def _DELETE(self):
+    raise NotImplementedError
+
+  def _INVALID(self):
+    forbidden()
+    return "Invalid"
+
+  def __call__(self, method):
+    return {
+      'GET':    self._GET,
+      'PUT':    self._PUT,
+      'POST':   self._POST,
+      'DELETE': self._DELETE
+    }.get(method, self._INVALID)()
+
+class __MissingNode(__ActualNode):
+  def _POST(self):
+    # TODO: maybe write file.
+    raise NotImplementedError()
+
+  def _GET(self):
+    notfound()
+    return "not found"
+
+  def _PUT(self):
+    return self._GET()
+
+  def _DELETE(self):
+    return self._GET()
+
+def missing_node(path, logger):
+  return __MissingNode(path, logger)
+
 class __FileNode(__ActualNode):
   def __init__(self, path, parent, after, logger):
     Node.__init__(self, path, logger)
     self.__after = after
     self.__parent = parent
 
-  def execute(self, method):
+  def _GET(self):
     return str(self)
 
   def __str__(self):
@@ -81,10 +112,7 @@ def file_node(path, parent, afters, logger):
   return __FileNode(path, parent, after, logger)
 
 class __DirNode(__ActualNode):
-  def __init__(self, path, logger):
-    Node.__init__(self, path, logger)
-
-  def execute(self, method):
+  def _GET(self):
     return str(self)
 
   def __str__(self):

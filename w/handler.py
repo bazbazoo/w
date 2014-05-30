@@ -12,7 +12,7 @@ class Handler(object):
     return self
 
   def __do(self, method, path):
-    return self.__resolve(self.__root, path).execute(method)
+    return self.__resolve(self.__root, path)(method)
 
   def GET(self, path):
     return self.__do('GET', path)

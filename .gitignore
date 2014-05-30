@@ -1,3 +1,5 @@
 dist
 w.egg-info
 MANIFEST
+*.pyc
+build

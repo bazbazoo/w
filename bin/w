@@ -1,2 +1,29 @@
-#!/bin/bash
-exec python $(dirname $0)/../w/run.py
+#!/usr/bin/env python
+
+import w
+from argparse import ArgumentParser
+
+p = ArgumentParser()
+
+p.add_argument(
+  'root',
+  metavar='R',
+  type=str,
+  nargs='?',
+  default='.')
+
+p.add_argument(
+  '--address', '--ip', '-a',
+  type=str,
+  dest='ip',
+  default='0.0.0.0')
+
+p.add_argument(
+  '--port', '-p',
+  type=int,
+  dest='port',
+  default=8000)
+
+args = p.parse_args()
+
+w.run(args.ip, args.port, args.root)

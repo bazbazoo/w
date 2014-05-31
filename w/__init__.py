@@ -10,9 +10,7 @@ def run(ip, port, root, logger):
   abs_root = abspath(root)
   node = root_node(abs_root, logger)
 
-  URLS = (
-    '/(.*)', 'handler'
-  )
+  URLS = ('/(.*)', 'handler')
 
   app = application(URLS, { 'handler': Handler(node, logger) })
 

@@ -4,7 +4,7 @@ from web import forbidden, internalerror, header
 from file import FileNode
 from forbidden import forbidden_response
 
-magic = Magic(flags = MAGIC_MIME_ENCODING)
+M = Magic(flags = MAGIC_MIME_ENCODING)
 
 class StaticNode(FileNode):
   def __str__(self):
@@ -12,7 +12,7 @@ class StaticNode(FileNode):
 
   def _GET(self):
     if self.readable:
-      mime = magic.id_filename(self.path)
+      mime = M.id_filename(self.path)
       header('Content-Type', mime)
 
       try:

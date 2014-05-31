@@ -3,6 +3,7 @@ from os.path import isdir, isfile
 from actual import ActualNode
 from file import FileNode
 from missing import MissingNode
+from forbidden import ForbiddenNode
 
 from ..utils import S, J
 
@@ -23,7 +24,6 @@ class DirNode(ActualNode):
   def __str__(self):
     return self.path
 
-
   def resolve(self, path):
     if path is None: return self
 
@@ -32,6 +32,8 @@ class DirNode(ActualNode):
     if head == '': return self.resolve(rest)
 
     next_path = J(self.path, head)
+
+    if head == '..': return ForbiddenNode(next_path, self)
 
     next_node = node(next_path, self)
 

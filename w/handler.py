@@ -14,7 +14,7 @@ class Handler(object):
     node = self.__root.resolve(path)
 
     if not abspath(node.path).startswith(self.__root.path):
-      return forbidden_response()
+      return forbidden_response("below root")
     else:
       return node(method)
 

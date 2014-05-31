@@ -6,3 +6,4 @@ class CGINode(FileNode):
 
   def _GET(self):
     return str(self)
+

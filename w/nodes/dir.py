@@ -8,6 +8,18 @@ class DirNode(ActualNode):
   def _GET(self):
     return str(self)
 
+  def _DELETE(self):
+    # TODO
+    raise NotImplementedError()
+
+  def _PUT(self):
+    # TODO
+    raise NotImplementedError()
+
+  def _POST(self):
+    # TODO
+    raise NotImplementedError()
+
   def __str__(self):
     return self.path
 

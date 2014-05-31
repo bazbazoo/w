@@ -1,8 +1,8 @@
 from os import access, R_OK, W_OK, X_OK
 
-from web import notfound, forbidden
+from web import notfound, forbidden, nomethod
 
-from base_node import Node
+from node import Node
 
 class ActualNode(Node):
 
@@ -34,7 +34,7 @@ class ActualNode(Node):
     raise NotImplementedError
 
   def _INVALID(self):
-    forbidden()
+    nomethod()
     return "Invalid"
 
   def __call__(self, method):

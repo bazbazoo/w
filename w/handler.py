@@ -14,5 +14,7 @@ class Handler(object):
   def __do(self, method, path):
     return self.__resolve(self.__root, path)(method)
 
-  def GET(self, path):
-    return self.__do('GET', path)
+  def GET(self, path):    return self.__do('GET', path)
+  def PUT(self, path):    return self.__do('PUT', path)
+  def POST(self, path):   return self.__do('POST', path)
+  def DELETE(self, path): return self.__do('DELETE', path)

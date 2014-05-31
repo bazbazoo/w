@@ -5,13 +5,11 @@ from web import application, httpserver
 from handler import Handler
 
 def run(ip, port, root, logger):
-  urls = (
+  URLS = (
     '/(.*)', 'handler'
   )
 
-  handler = Handler(root, logger)
-
-  app = application(urls, {'handler': handler})
+  app = application(URLS, { 'handler': Handler(root, logger) })
 
   try:
     httpserver.runsimple(app.wsgifunc(), (ip, port))

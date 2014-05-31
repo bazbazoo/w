@@ -1,1 +1,1 @@
-from factory import node, root_node
+from factory import root_node

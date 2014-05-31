@@ -11,5 +11,5 @@ setup(
     license='LICENSE.txt',
     description='HTTP server',
     long_description=open('README.txt').read(),
-    install_requires=['web.py', 'argparse'],
+    install_requires=['web.py', 'argparse', 'filemagic'],
 )

@@ -2,9 +2,10 @@ from os import access, R_OK, W_OK, X_OK
 
 from web import notfound, forbidden
 
-from node import Node
+from base_node import Node
 
 class ActualNode(Node):
+
   def __access(self, flag):
     return access(self.path, flag)
 

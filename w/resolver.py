@@ -1,6 +1,6 @@
 from os.path import isdir, isfile
 
-from nodes import file_node, dir_node, forbidden_node, missing_node
+from nodes import file_node, dir_node, forbidden_node, missing_node, to_forbidden_node
 from utils import S, J
 
 class Resolver(object):
@@ -31,6 +31,6 @@ class Resolver(object):
   def resolve(self, root, path):
     node = self.__resolve(rest = S(J(root, path)))
     if len(node.path) < len(root):
-      return node.forbidden()
+      return to_forbidden_node(node, self.__logger)
     else:
       return node

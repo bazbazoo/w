@@ -6,12 +6,9 @@ class FileNode(ActualNode):
     self.__rest = rest
     self.__parent = parent
 
-  def _GET(self):
-    return str(self)
-
   def __str__(self):
     return '%s %s: %s' % (self.parent, self.path, self.__rest)
 
   def resolve(self, path):
     assert self.__rest is None
-    return FileNode(self.path, self.parent, path)
+    return self.__class__(self.path, self.parent, path)

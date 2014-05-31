@@ -1,9 +1,12 @@
 from os.path import isdir, isfile
 
 from actual import ActualNode
-from file import FileNode
+from static import StaticNode
+from cgi import CGINode
 from missing import MissingNode
 from forbidden import ForbiddenNode
+
+from os import access, X_OK
 
 from ..utils import S, J
 
@@ -11,9 +14,13 @@ def node(path, parent):
   if isdir(path):
     node_type = DirNode
   elif isfile(path):
-    node_type = FileNode
+    if access(path, X_OK):
+      node_type = CGINode
+    else:
+      node_type = StaticNode
   else:
     node_type = MissingNode
+
   return node_type(path, parent)
 
 class DirNode(ActualNode):
@@ -22,7 +29,6 @@ class DirNode(ActualNode):
 
   def __str__(self):
     return self.path
-
 
   def resolve(self, path):
     if path is None: return self

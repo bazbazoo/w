@@ -7,6 +7,15 @@ from forbidden import ForbiddenNode
 
 from ..utils import S, J
 
+def node(path, parent):
+  if isdir(path):
+    node_type = DirNode
+  elif isfile(path):
+    node_type = FileNode
+  else:
+    node_type = MissingNode
+  return node_type(path, parent)
+
 class DirNode(ActualNode):
   def _GET(self):
     return str(self)
@@ -14,14 +23,6 @@ class DirNode(ActualNode):
   def __str__(self):
     return self.path
 
-  def __node(path):
-    if isdir(path):
-      node_type = DirNode
-    elif isfile(path):
-      node_type = FileNode
-    else:
-      node_type = MissingNode
-    return node_type(path, self)
 
   def resolve(self, path):
     if path is None: return self
@@ -33,5 +34,5 @@ class DirNode(ActualNode):
     next_path = J(self.path, head)
     if head == '..': return ForbiddenNode(next_path, self)
 
-    next_node = __node(next_path)
+    next_node = node(next_path, self)
     return next_node.resolve(rest)

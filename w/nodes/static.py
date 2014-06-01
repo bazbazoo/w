@@ -17,16 +17,6 @@ class StaticNode(FileNode):
     if path == None: return self
     return MissingNode(J(self.path, path), self)
 
-  def _DELETE(self):
-    remove(self.path)
-
-  def _PUT(self):
-    with open(self.path, 'wb') as f:
-      f.write(data())
-
-  def _POST(self):
-    return forbidden_response("already exists")
-
   def _GET(self):
     mime = M.id_filename(self.path)
     header('Content-Type', mime)

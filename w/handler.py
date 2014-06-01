@@ -9,7 +9,7 @@ class Handler(object):
     return self
 
   def __do(self, method, path):
-    return self.__root.resolve(path)(method)
+    return self.__root.resolve(path or None)(method)
 
   def GET(self, path):    return self.__do('GET', path)
   def PUT(self, path):    return self.__do('PUT', path)

@@ -6,7 +6,7 @@ setup(
     author='Itay Donanhirsh',
     author_email='itay@bazoo.org',
     packages=['w', 'w.test'],
-    scripts=['bin/w'],
+    scripts=['bin/w', 'bin/iw'],
     url='http://pypi.python.org/pypi/w/',
     license='LICENSE.txt',
     description='HTTP server',

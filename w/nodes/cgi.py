@@ -15,9 +15,11 @@ class CGINode(Node):
 
   @protected
   def __call__(self, method):
-    cmd = [self.path, method, self.__rest or '']
     env = dict(filter(lambda i: type(i[1]) == str, ctx.env.items()))
-    p = Popen(cmd, env = env, stdin = PIPE, stdout = PIPE, stderr = PIPE)
+    env.update({
+      'REMAINING_PATH': self.__rest or ''
+    })
+    p = Popen([self.path], env = env, stdin = PIPE, stdout = PIPE, stderr = PIPE)
     out, err = p.communicate(data())
     print err
     return out

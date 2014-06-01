@@ -1,7 +1,8 @@
-from ..utils import S, J
+from shutil import rmtree
 
+from ..utils import S, J
 from actual import ActualNode
-from forbidden import ForbiddenNode
+from forbidden import ForbiddenNode, forbidden_response
 
 class DirNode(ActualNode):
 
@@ -9,16 +10,16 @@ class DirNode(ActualNode):
     return str(self)
 
   def _DELETE(self):
-    # TODO
-    raise NotImplementedError()
+    if self.parent is None:
+      return forbidden_response("can not delete root directory")
+    else:
+      rmtree(self.path)
 
   def _PUT(self):
-    # TODO
-    raise NotImplementedError()
+    return forbidden_response("PUT on directory not supported")
 
   def _POST(self):
-    # TODO
-    raise NotImplementedError()
+    return forbidden_response("POST on directory not supported")
 
   def __str__(self):
     return self.path
@@ -30,7 +31,7 @@ class DirNode(ActualNode):
 
     head, rest = S(path)
 
-    if head == '': return self.resolve(rest)
+    if head in ['', '.']: return self.resolve(rest)
 
     next_path = J(self.path, head)
     if head == '..': return ForbiddenNode(next_path, self)

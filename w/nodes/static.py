@@ -18,7 +18,7 @@ class StaticNode(FileNode):
     return MissingNode(J(self.path, path), self)
 
   def _DELETE(self):
-    return protect(lambda: remove(self.path))
+    remove(self.path)
 
   def _PUT(self):
     with open(self.path, 'wb') as f:

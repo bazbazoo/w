@@ -1,3 +1,5 @@
+from os import listdir
+from os.path import isdir
 from shutil import rmtree
 
 from ..utils import S, J
@@ -7,7 +9,8 @@ from forbidden import ForbiddenNode, forbidden_response
 class DirNode(ActualNode):
 
   def _GET(self):
-    return str(self)
+    decorate = lambda n: "%s%s" % (n, isdir(J(self.path, n)) and '/' or '')
+    return '\n'.join(map(decorate, listdir(self.path)))
 
   def _DELETE(self):
     if self.parent is None:

@@ -1,5 +1,6 @@
 from magic import Magic, MAGIC_MIME_ENCODING
-from web import forbidden, internalerror, header
+from web import header, data
+from os import remove
 
 from file import FileNode
 from missing import MissingNode
@@ -16,23 +17,19 @@ class StaticNode(FileNode):
     if path == None: return self
     return MissingNode(J(self.path, path), self)
 
+  def _DELETE(self):
+    return protect(lambda: remove(self.path))
+
   def _PUT(self):
-    # TODO
-    raise NotImplementedError()
+    with open(self.path, 'wb') as f:
+      f.write(data())
 
   def _POST(self):
-    forbidden_response("already exists")
+    return forbidden_response("already exists")
 
   def _GET(self):
-    if self.readable:
-      mime = M.id_filename(self.path)
-      header('Content-Type', mime)
+    mime = M.id_filename(self.path)
+    header('Content-Type', mime)
 
-      try:
-        with open(self.path, 'rb') as f:
-          i = iter(lambda: f.read(1024), '')
-          for b in i: yield b
-      except IOError as e:
-        internalerror()
-    else:
-      forbidden_response("not readable")
+    with open(self.path, 'rb') as f:
+      return f.read()

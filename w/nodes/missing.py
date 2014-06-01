@@ -1,11 +1,22 @@
-from web import notfound
+from os import remove
+from web import notfound, data
 
 from actual import ActualNode
+from ..utils import J
 
 class MissingNode(ActualNode):
+
   def _POST(self):
-    # TODO: maybe write file.
-    raise NotImplementedError()
+    done = False
+    try:
+      with open(self.path, 'wb') as f:
+        f.write(data())
+      done = True
+    finally:
+      try:
+        done or remove(self.path)
+      except OSError:
+        pass
 
   def __reply(self):
     notfound()
@@ -15,9 +26,6 @@ class MissingNode(ActualNode):
   def _PUT(self):    return self.__reply()
   def _DELETE(self): return self.__reply()
 
-  def _POST(self):
-    # TODO
-    raise NotImplementedError()
-
   def resolve(self, path):
-    return self
+    if path is None: return self
+    return MissingNode(J(self.path, path), self)

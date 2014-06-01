@@ -21,4 +21,4 @@ def node(path, parent):
   return node_type(path, parent)
 
 def root_node(path):
-  return node(path, Node(path, None))
+  return node(path, None)

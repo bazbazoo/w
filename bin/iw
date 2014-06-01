@@ -1,4 +1,4 @@
 #!/bin/sh
-$(dirname $0)/w
+$(dirname $0)/w "$@"
 sleep 1
-exec $0
+exec $0 "$@"

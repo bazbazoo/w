@@ -1,4 +1,5 @@
 from errno import EACCES, ENOTDIR
+from subprocess import CalledProcessError
 
 from web import forbidden, internalerror
 
@@ -10,6 +11,9 @@ def protect(what, *a, **kw):
       forbidden()
     else:
       internalerror()
+    return str(e)
+  except CalledProcessError as e:
+    internalerror()
     return str(e)
 
 def protected(what):

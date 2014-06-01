@@ -1,8 +1,8 @@
 from os import access, R_OK, W_OK, X_OK
 
 from web import notfound, forbidden, nomethod
-from common import protected
 
+from common import protected
 from node import Node
 
 class ActualNode(Node):
@@ -38,10 +38,11 @@ class ActualNode(Node):
     nomethod()
     return "Invalid"
 
+  @protected
   def __call__(self, method):
-    return protected({
+    return {
       'GET':    self._GET,
       'PUT':    self._PUT,
       'POST':   self._POST,
       'DELETE': self._DELETE
-    }.get(method, self._INVALID))()
+    }.get(method, self._INVALID)()

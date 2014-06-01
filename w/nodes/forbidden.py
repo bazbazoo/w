@@ -7,8 +7,12 @@ def forbidden_response(why = "nope"):
   return "forbidden: %s" % why
 
 class ForbiddenNode(Node):
+  def __init__(self, path, parent, msg = ''):
+    Node.__init__(self, path, parent)
+    self.__msg = msg
+
   def __call__(self, method):
-    forbidden_response()
+    return forbidden_response(self.__msg)
 
   def resolve(self, path):
     return self

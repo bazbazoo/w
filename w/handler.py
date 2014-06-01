@@ -11,12 +11,7 @@ class Handler(object):
     return self
 
   def __do(self, method, path):
-    node = self.__root.resolve(path)
-
-    if not abspath(node.path).startswith(self.__root.path):
-      return forbidden_response("below root")
-    else:
-      return node(method)
+    return self.__root.resolve(path)(method)
 
   def GET(self, path):    return self.__do('GET', path)
   def PUT(self, path):    return self.__do('PUT', path)

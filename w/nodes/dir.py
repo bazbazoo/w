@@ -31,10 +31,10 @@ class DirNode(ActualNode):
 
     head, rest = S(path)
 
-    if head in ['', '.']: return self.resolve(rest)
+    if head == '': return self.resolve(rest)
 
     next_path = J(self.path, head)
-    if head == '..': return ForbiddenNode(next_path, self)
+    if head in ['..', '.']: return ForbiddenNode(next_path, self, 'relative path')
 
     next_node = node(next_path, self)
     return next_node.resolve(rest)

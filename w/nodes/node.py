@@ -1,8 +1,7 @@
 from os.path import abspath
 
 class Node(object):
-  def __init__(self, path, parent, logger = None):
-    self.__logger = logger or parent.logger
+  def __init__(self, path, parent):
     self.__path = abspath(path)
     self.__parent = parent
 
@@ -13,10 +12,6 @@ class Node(object):
   @property
   def path(self):
     return self.__path
-
-  @property
-  def logger(self):
-    return self.__logger
 
   def resolve(self, path):
     raise NotImplementedError()

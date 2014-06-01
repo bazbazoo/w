@@ -8,7 +8,7 @@ from nodes import root_node
 
 def run(ip, port, root, logger):
   abs_root = abspath(root)
-  node = root_node(abs_root, logger)
+  node = root_node(abs_root)
 
   URLS = ('/(.*)', 'handler')
 

@@ -1,8 +1,8 @@
 from file import FileNode
 
 class CGINode(FileNode):
-  def __init__(self, path, parent, logger = None, rest = None):
-    FileNode.__init__(path, parent, logger)
+  def __init__(self, path, parent, rest = None):
+    FileNode.__init__(path, parent)
     self.__rest = rest
 
   def __str__(self):

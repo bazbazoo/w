@@ -20,5 +20,5 @@ def node(path, parent):
 
   return node_type(path, parent)
 
-def root_node(path, logger):
-  return node(path, Node(path, None, logger))
+def root_node(path):
+  return node(path, Node(path, None))

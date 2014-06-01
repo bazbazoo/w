@@ -1,43 +1,44 @@
-===========
-Towel Stuff
-===========
+=== ROUGH DRAFT ===
 
-Towel Stuff provides such and such and so and so. You might find
-it most useful for tasks involving <x> and also <y>. Typical usage
-often looks like this::
+=
+w
+=
 
-    #!/usr/bin/env python
+w provides a very simple web server that:
+* can query and modify the filesystem;
+* execute CGI executables.
 
-    from towelstuff import location
-    from towelstuff import utils
+Usage
+=====
 
-    if utils.has_towel():
-        print "Your towel is located:", location.where_is_my_towel()
+% bin/w -h
+usage: w [-h] [--ip IP] [--port PORT] [--debug] [ROOT]
 
-(Note the double-colon and 4-space indent formatting above.)
+positional arguments:
+  ROOT
 
-Paragraphs are separated by blank lines. *Italics*, **bold**,
-and ``monospace`` look like this.
+optional arguments:
+  -h, --help            show this help message and exit
+  --ip IP, -a IP
+  --port PORT, -p PORT
+  --debug, -d
 
+Examples
+========
 
-A Section
-=========
+Serve data under a directory:
+-----------------------------
 
-Lists look like this:
+% bin/w dirname
 
-* First
+All operations on the directory are governed by the file system permissions.
+If an executable is inside the directory, when queried it will be executed.
 
-* Second. Can be multiple lines
-  but must be indented properly.
+Serve as a pipe to a CGI script:
+--------------------------------
 
-A Sub-Section
--------------
+% bin/w executable
 
-Numbered lists look like you'd expect:
-
-1. hi there
-
-2. must be going
-
-Urls are http://like.this and links can be
-written `like this <http://www.example.com/foo/bar>`_.
+POST/PUT/GET data will be delivered to executable via stdin.
+stdout will be returned to user.
+stderr will be printed in the console.

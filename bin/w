@@ -18,7 +18,7 @@ def get_args():
 
   p.add_argument(
     'root',
-    metavar='R',
+    metavar='ROOT',
     type=str,
     nargs='?',
     default='.')

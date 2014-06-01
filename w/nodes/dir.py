@@ -24,9 +24,6 @@ class DirNode(ActualNode):
   def _POST(self):
     return forbidden_response("POST on directory not supported")
 
-  def __str__(self):
-    return self.path
-
   def resolve(self, path):
     from factory import node # break circular dependency.
 

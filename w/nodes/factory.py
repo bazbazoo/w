@@ -5,7 +5,7 @@ from cgi import CGINode
 from dir import DirNode
 from missing import MissingNode
 from node import Node
-from static import StaticNode
+from file import FileNode
 
 def node(path, parent):
   if isdir(path):
@@ -14,7 +14,7 @@ def node(path, parent):
     if access(path, X_OK):
       node_type = CGINode
     else:
-      node_type = StaticNode
+      node_type = FileNode
   else:
     node_type = MissingNode
 

@@ -1,7 +1,5 @@
 from os.path import abspath
 
-from nodes import forbidden_response
-
 class Handler(object):
   def __init__(self, root, logger):
     self.__root = root

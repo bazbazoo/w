@@ -1,10 +1,12 @@
 from os.path import abspath
 
+from config import load_config
+
 class Node(object):
-  def __init__(self, path, parent, config = None):
+  def __init__(self, path, parent):
     self.__path = abspath(path)
     self.__parent = parent
-    self.__config = config or (parent and parent.config)
+    self.__config = load_config(path, parent and parent.config)
 
   @property
   def parent(self):

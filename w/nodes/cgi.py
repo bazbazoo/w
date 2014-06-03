@@ -1,6 +1,6 @@
-from subprocess import Popen, PIPE
-from web import ctx, data
+from web import internalerror
 
+from ..utils import wexecute
 from common import protected
 from node import Node
 
@@ -15,11 +15,11 @@ class CGINode(Node):
 
   @protected
   def __call__(self, method):
-    env = dict(filter(lambda i: type(i[1]) == str, ctx.env.items()))
-    env.update({
-      'REMAINING_PATH': self.__rest or ''
-    })
-    p = Popen([self.path], env = env, stdin = PIPE, stdout = PIPE, stderr = PIPE)
-    out, err = p.communicate(data())
-    print err
-    return out
+    rc, out, err = wexecute(self.path, { 'REMAINING_PATH': self.__rest or '' })
+
+    if err: print err # TODO: log
+
+    if rc != 0:
+      raise internalerror()
+    else:
+      return out

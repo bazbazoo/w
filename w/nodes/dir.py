@@ -4,9 +4,14 @@ from shutil import rmtree
 
 from ..utils import S, J
 from actual import ActualNode
+from config import load_config
 from forbidden import ForbiddenNode, forbidden_response
 
 class DirNode(ActualNode):
+
+  def __init__(self, path, parent):
+    config = load_config(path, parent)
+    ActualNode.__init__(self, path, parent, config)
 
   def _GET(self):
     decorate = lambda n: "%s%s" % (n, isdir(J(self.path, n)) and '/' or '')

@@ -1,20 +1,14 @@
-import socket
 from os.path import abspath
 
-from web import application, httpserver
+from web import application
 
 from handler import Handler
 from nodes import root_node
 
-def run(ip, port, root, logger):
+def init_app(root, logger):
   abs_root = abspath(root)
   node = root_node(abs_root)
 
   URLS = ('/(.*)', 'handler')
 
-  app = application(URLS, { 'handler': Handler(node, logger) })
-
-  try:
-    httpserver.runsimple(app.wsgifunc(), (ip, port))
-  except socket.error as e:
-    logger.error('httpserver: %s' % e)
+  return application(URLS, { 'handler': Handler(node, logger) })

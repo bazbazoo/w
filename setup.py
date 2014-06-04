@@ -7,7 +7,7 @@ setup(
     author_email='itay@bazoo.org',
     packages=['w', 'w.test', 'w.nodes'],
     scripts=['bin/w', 'bin/iw'],
-    url='http://pypi.python.org/pypi/w/',
+    url='http://github.com/itayd/w',
     license='LICENSE.txt',
     description='HTTP server',
     long_description=open('README.txt').read(),

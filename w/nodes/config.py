@@ -2,6 +2,8 @@ from os.path import isdir
 
 from ..utils import J, is_exec_file, wexecute
 
+CONFIG_DIR_NAME = '.w'
+
 class NullHooks(object):
   def _get(self, which):
     return lambda: True
@@ -15,7 +17,7 @@ class Hooks(NullHooks):
   def __init__(self, path, parent):
     self.__parent = parent
     self.__path = path
-    self.__config_path = J(path, '.w')
+    self.__config_path = J(path, CONFIG_DIR_NAME)
 
     self.__hooks = {
       'pre': is_exec_file(J(self.__config_path, "pre"))
@@ -50,5 +52,5 @@ class __Config(NullConfig):
     self._hooks = Hooks(path, parent and parent.hooks)
 
 def load_config(path, parent_config):
-  if not isdir(J(path, '.w')): return parent_config or NullConfig()
+  if not isdir(J(path, CONFIG_DIR_NAME)): return parent_config or NullConfig()
   return __Config(path, parent_config)

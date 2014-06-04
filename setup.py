@@ -5,7 +5,7 @@ setup(
     version='0.1.0',
     author='Itay Donanhirsh',
     author_email='itay@bazoo.org',
-    packages=['w', 'w.test'],
+    packages=['w', 'w.test', 'w.nodes'],
     scripts=['bin/w', 'bin/iw'],
     url='http://pypi.python.org/pypi/w/',
     license='LICENSE.txt',
